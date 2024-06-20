@@ -75,7 +75,7 @@ class CompleteScanner():
     def vuln_to_str(self, vuln):
         return f"Between 0x{vuln[0]:x} - 0x{vuln[1]:x} | Confidence {vuln[2]:.2f}%\n"
 
-    def prettyScan(self, path, verbose='auto'):
+    def pretty_scan(self, path, verbose='auto'):
         output = ""
         vulns, static_analysis, predictions = self.scanFile(path, verbose)
         output += "Static vulnerabilities: \n"

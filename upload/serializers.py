@@ -17,9 +17,8 @@ class UploadSerializer(serializers.ModelSerializer):
 
     def get_vulns(self, obj):
         scanner = CompleteScanner()
-        print(obj.file.path)
         try:
-            res = scanner.prettyScan("D:/Pycharm Projects/ThesisBackend/manage.py", verbose=2)
+            res = scanner.pretty_scan(obj.file.path, verbose=2)
         except FileTypeException as e:
             raise serializers.ValidationError({"message": "Wrong file type"})
         # print(res)

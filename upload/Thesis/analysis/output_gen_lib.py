@@ -106,7 +106,10 @@ def analyze_program(path):
                 resolvedSym = sym.getHigh()
                 if resolvedSym.getName() == 'UNNAMED':
                     return True
-                availableSpace = allocs[resolvedSym.getName()]
+                try:
+                    availableSpace = allocs[resolvedSym.getName()]
+                except KeyError:  # not enough information to determine vulnerability
+                    return True
 
             if availableSpace < args[3].getOffset():
                 # print("Detected buffer overflow from call!")

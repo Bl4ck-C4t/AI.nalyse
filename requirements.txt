@@ -1,0 +1,9 @@
+python-magic~=0.4.27
+python-magic-bin~=0.4.14
+pyhidra~=1.2.0
+pandas~=2.2.2
+tensorflow~=2.16.1
+keras~=3.3.3
+numpy~=1.26.4
+Django~=5.0.6
+djangorestframework~=3.15.1

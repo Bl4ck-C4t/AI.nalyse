@@ -143,8 +143,7 @@ class VulnerabilityScanner:
         return predictions
 
     def get_vulns(self, zip_path, verbose='auto'):
-        filepath = uncompress(zip_path)
-        predictions = self.predict_bounding_boxes(filepath, verbose=verbose)
+        predictions = self.predict_bounding_boxes(zip_path, verbose=verbose)
         predictions = [[int(s1 * SCALE), int(e1 * SCALE), c] for s1, e1, c in predictions[0]]
         return predictions
 
