@@ -1,12 +1,15 @@
 from upload.Thesis.machine_learning_analysis import VulnerabilityScanner
 from upload.Thesis.analysis.output_gen_lib import *
 from upload.Thesis.analysis.utilities import *
+from upload.Thesis.classes.Exceptions import FileTypeException
+import magic
 
 SCALE = 100000
 
 
 class CompleteScanner():
     def __init__(self):
+        self.scanner = VulnerabilityScanner()
         pass
 
     def convert_static_output(self, output):
@@ -21,7 +24,7 @@ class CompleteScanner():
         return False
 
     def convert_vuln(self, vuln, prog_start):
-        return int(vuln[0]) + prog_start, int(vuln[1]) + prog_start, vuln[2]*100
+        return int(vuln[0]) + prog_start, int(vuln[1]) + prog_start, vuln[2] * 100
 
     def convert_to_address(self, vulns, prog_start):
         return [self.convert_vuln(vuln, prog_start) for vuln in vulns]
@@ -29,13 +32,22 @@ class CompleteScanner():
     def range_intersection(self, ranges1, ranges2):  # (r1, e1), (r2, e2)
         return self.check_between(ranges1, ranges2) or self.check_between(ranges2, ranges1)
 
+    def confirm_file_type(self, path):
+        file_magic = magic.Magic()
+
+        # Use the magic object to identify the file type
+        file_type = file_magic.from_file(path)
+        if "ELF" not in file_type:
+            raise FileTypeException(f"Expected 'ELF' file type but got: {file_type}")
+
     def scanFile(self, path, verbose='auto'):
-        scanner = VulnerabilityScanner()
+        self.confirm_file_type(path)
+
 
         zip_path = zip_file(path, "upload/Thesis/processing")
         prog_start = get_prog_start(path)
 
-        predictions = scanner.get_vulns(zip_path, verbose)
+        predictions = self.scanner.get_vulns(zip_path, verbose)
         static_analysis = self.convert_static_output(analyze_program(path))
         static_analysis = self.convert_to_address(static_analysis, prog_start)
         vulns = []

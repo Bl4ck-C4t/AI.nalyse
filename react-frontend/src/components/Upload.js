@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import axios from 'axios';
+import { Accordion, Card, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 
 const Upload = () => {
@@ -43,6 +44,7 @@ const Upload = () => {
     return  (
 
         <div className="container mt-5">
+
             <h2 className="text-center">Upload a File</h2>
             <form onSubmit={handleSubmit} className="mb-3">
                 <div className="form-group">
